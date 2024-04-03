@@ -1,3 +1,3 @@
-import tello_control
+import tello_ctrl
 
-drone=tello_control.tello_control()
+drone=tello_ctrl.tello_ctrl()

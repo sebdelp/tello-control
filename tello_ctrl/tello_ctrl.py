@@ -7,6 +7,7 @@
 # + recording video to file at a specified rate
 # + logging all sensors to file at a specified rate
 # + viewing live video
+# + works with the sister Matlab toolbox
 #
 # Author : S. Delprat, INSA Hauts-de-France
 
@@ -19,21 +20,22 @@ import math
 import os
 import fractions
 import cv2
-from utils.utils import *
-from utils.protocol import *
-from utils.dispatcher import dispatcher, signal
-import utils.state as state
-from utils import event
-from utils import video_stream
+
+from common.protocol import *
+from common.utils import *
+from common.dispatcher import dispatcher, signal
+from common import event
+from common import video_stream
+from common import state
 
 
 
-""" The tello_controlException is used to raise exception in the tello_control module"""
-class tello_controlException(Exception):
+""" The tello_ctrlException is used to raise exception in the tello_ctrl module"""
+class tello_ctrlException(Exception):
     pass
 
 
-"""The tello_control allows controling a Tello Drone. Essentially, it allows to send joystick controls and receive video.
+"""The tello_ctrl allows controling a Tello Drone. Essentially, it allows to send joystick controls and receive video.
 This object also provide access to all the measured values and the video.
 
 :param ip_address: ip adress of the drone, defaults to '192.168.10.1'
@@ -43,7 +45,7 @@ This object also provide access to all the measured values and the video.
 param port_in: port for receiving data send by the drone, defaults to 8889
 :type port_in: int, optional
 """
-class tello_control(object):
+class tello_ctrl(object):
     def __init__(self, ip_address='192.168.10.1',port_out=8889, port_in=9000):
         # timeout values
         
@@ -51,7 +53,7 @@ class tello_control(object):
         self.__FORMATTER = logging.Formatter('[%(asctime)s %(levelname)s] %(filename)s - %(lineno)d - %(message)s')
         self.__LOGGER_HANDLER_LIST={'console':None,'file':None}
        
-        self.__LOGGER = logging.getLogger('tello_control')
+        self.__LOGGER = logging.getLogger('tello_ctrl')
         self.__LOGGER.setLevel(logging.DEBUG)
         self.add_console_logger()
         
@@ -169,7 +171,7 @@ class tello_control(object):
         """Establish the connection with the droone
         :param timeout: The timeout value for establishing the connection, in seconds. Defaults to 5 seconds if not provided.
         :type timeout: int or float, optional        
-        :raises tello_controlException: This exception is raised the drone does not respond within the specified timeout interval of time
+        :raises tello_ctrlException: This exception is raised the drone does not respond within the specified timeout interval of time
         
         """
         # Create a UDP socket
@@ -191,7 +193,7 @@ class tello_control(object):
         
         self.__conected.clear()
         if not self.__conected.wait(timeout):
-            raise tello_controlException('Connection timeout')
+            raise tello_ctrlException('Connection timeout')
         
         # wait for the first log packet (so all the variables are available)
         self.__LOGGER.debug('Connect : Wait for first packet')
@@ -210,19 +212,19 @@ class tello_control(object):
         * ``"ERROR"`` is used to gather only the errors.
             
         The level are ordered: ``"DEBUG"`` will gathers all the messages, ``"INFO"`` will gather ``"INFO"`` and ``"ERROR"``.
-        The file logger can be removed using :meth:`~tello_control.tello_control.remove_file_logger`
+        The file logger can be removed using :meth:`~tello_ctrl.tello_ctrl.remove_file_logger`
 
         :param level: logger level. Can be ``"DEBUG"``, ``"INFO"`` or ``"ERROR"``, defaults to ``"INFO"``
         :type level: str, optional
         :param mode: mode for file creation. ``"a"`` is used to add log at the end of an existing file 
          and ``"w"`` to overwrite the file if it exists.
         
-        :raises: tello_controlException, exception raised when a file logger has already been added.
+        :raises: tello_ctrlException, exception raised when a file logger has already been added.
         
         """
         if self.__LOGGER_HANDLER_LIST['file'] is None:
             if mode not in ['a','w']:
-                raise tello_controlException('Mode value must be "a" or "w"')
+                raise tello_ctrlException('Mode value must be "a" or "w"')
           
             # add the file handler to the list
             self.__LOGGER_HANDLER_LIST["file"] = logging.FileHandler(file_name,mode=mode)
@@ -231,7 +233,7 @@ class tello_control(object):
             self.__LOGGER.addHandler(self.__LOGGER_HANDLER_LIST["file"])
             self.set_log_level("file",level)
         else:
-            raise tello_controlException('File handler is already active')
+            raise tello_ctrlException('File handler is already active')
     
     def add_console_logger(self,level="ERROR"):
         """This function allows adding a logger to display message on the console. The messages are filtered according 
@@ -242,12 +244,12 @@ class tello_control(object):
         * ``"ERROR"`` is used to gather only the errors.
            
         The level are ordered: ``"DEBUG"`` will gathers all the messages, ``"INFO"`` will gather ``"INFO"`` and ``"ERROR"``.
-        The file logger can be removed using :meth:`~tello_control.tello_control.remove_file_logger`
+        The file logger can be removed using :meth:`~tello_ctrl.tello_ctrl.remove_file_logger`
 
         :param level: logger level. Can be ``"DEBUG"``, ``"INFO"`` or ``"ERROR"``, defaults to ``"INFO"``
         :type level: str, optional
         
-        :raises: tello_controlException, an exception raised when a file logger  has already been added.
+        :raises: tello_ctrlException, an exception raised when a file logger  has already been added.
         
         """
         
@@ -258,31 +260,31 @@ class tello_control(object):
             self.__LOGGER.addHandler(self.__LOGGER_HANDLER_LIST["console"])
             self.set_log_level("console",level)
         else:
-            raise tello_controlException('Console handler is already active')
+            raise tello_ctrlException('Console handler is already active')
     
     def remove_file_logger(self):
         """ This function removes the file logger. As a result, messages are not written anymore to the file.
         
-        raises: tello_controlException, an exception is raised if the file logger was not previously added
+        raises: tello_ctrlException, an exception is raised if the file logger was not previously added
         
         """
         if self.__LOGGER_HANDLER_LIST['file'] is not None: 
             self.__LOGGER.removeHandler(self.__LOGGER_HANDLER_LIST['file'])
             self.__LOGGER_HANDLER_LIST['file']=None
         else:   
-            raise tello_controlException('File handler has not been previously set')
+            raise tello_ctrlException('File handler has not been previously set')
     
     def remove_console_logger(self):
         """ This function removes the console logger. As a result, messages are not written anymore to the console.
         
-        raises: tello_controlException, an exception is raised if the stream logger was not previously added
+        raises: tello_ctrlException, an exception is raised if the stream logger was not previously added
         
         """
         if self.__LOGGER_HANDLER_LIST['console'] is not None: 
             self.__LOGGER.removeHandler(self.__LOGGER_HANDLER_LIST['console'])
             self.__LOGGER_HANDLER_LIST['console']=None
         else:
-            raise tello_controlException('Console handler has not been previously set')
+            raise tello_ctrlException('Console handler has not been previously set')
         
     
     def set_log_level(self,handler,level):
@@ -296,13 +298,13 @@ class tello_control(object):
         :param level: logger level. Can be ``"DEBUG"``, ``"INFO"`` or ``"ERROR"``, defaults to ``"INFO"``.
         :type level: str
         
-        raises: tello_controlException, an exception is raised if the selected logger was not previously added.
+        raises: tello_ctrlException, an exception is raised if the selected logger was not previously added.
         
         """
         
         # This function allows to change the log level
         if level not in ['DEBUG','INFO','WARNING','ERROR']:
-            raise tello_controlException("level must be in ['DEBUG','INFO','WARNING','ERROR']")
+            raise tello_ctrlException("level must be in ['DEBUG','INFO','WARNING','ERROR']")
         
         if level=="DEBUG":
             level2=logging.DEBUG
@@ -314,12 +316,12 @@ class tello_control(object):
             level2=logging.ERROR
             
         if handler not in ['console','file','root']:
-            raise tello_controlException('handler must be one of these :  "console", "file", "root"')
+            raise tello_ctrlException('handler must be one of these :  "console", "file", "root"')
         
         if handler != "root":
             # handler is "console" or "file"
             if self.__LOGGER_HANDLER_LIST[handler] is None:
-                raise tello_controlException('handler is not set')
+                raise tello_ctrlException('handler is not set')
             self.__LOGGER_HANDLER_LIST[handler].setLevel(level2)
         else:
             # handler is "root"
@@ -634,7 +636,7 @@ class tello_control(object):
         
     def get_sensors_idx(self,sensor_names):
         """Returns the index as a function of the signal name.
-            Theses indexes should be used to set ``idx`` in  :meth:`~tello_control.tello_control.get_sensor_values`.
+            Theses indexes should be used to set ``idx`` in  :meth:`~tello_ctrl.tello_ctrl.get_sensor_values`.
             
             If a sensor name is not found, the corresponding index is set to ``-1```.
             
@@ -667,9 +669,9 @@ class tello_control(object):
         return self.__sensor_list + self.__control_list
         
     def get_sensor_values_by_index(self,idx=[]):
-        """Sends the requested sensor values. The index ``idx`` refers to the position in the list send by :meth:`~tello_control.tello_control.get_sensor_list`.
+        """Sends the requested sensor values. The index ``idx`` refers to the position in the list send by :meth:`~tello_ctrl.tello_ctrl.get_sensor_list`.
         
-        Alternatively, knowing sensor names, you may get their index with :meth:`~tello_control.tello_control.get_sensors_idx`.
+        Alternatively, knowing sensor names, you may get their index with :meth:`~tello_ctrl.tello_ctrl.get_sensors_idx`.
         
         :param idx: List of sensor index, defaults to ``[]`` (send all the known values)
         :return: A list of sensor values.
@@ -695,7 +697,7 @@ class tello_control(object):
                 
             elif j<len(self.__control_list):
                 # in the sensor list, we have first the sensor, then the control
-                val=getattr(self,"_tello_control"+'__'+self.__control_list[j])
+                val=getattr(self,"_tello_ctrl"+'__'+self.__control_list[j])
                 if j<4:
                     # stick control are in the -1/1 range, -100/100 for the user
                     val=val*100  
@@ -706,7 +708,7 @@ class tello_control(object):
     
     def get_sensor_values_by_name(self,names=[]):
         """Sends the requested sensor (or control) values.
-        The list of sensor and control signal names can be retrived using :meth:`~tello_control.tello_control.get_sensor_list`.
+        The list of sensor and control signal names can be retrived using :meth:`~tello_ctrl.tello_ctrl.get_sensor_list`.
         
         :param names: List of sensor names, defaults to ``[]`` (send all the known values).
         :type names: [str]
@@ -730,7 +732,7 @@ class tello_control(object):
                 data.append(val)
 
             elif name in self.__control_list:
-                val=getattr(self,"_tello_control"+'__'+name)
+                val=getattr(self,"_tello_ctrl"+'__'+name)
                 idx=self.__control_list.index(name)
                 if idx<4:
                     # stick control are in the -1/1 range, -100/100 for the user
@@ -1261,11 +1263,11 @@ class tello_control(object):
         
         :param zoom: Value of the zoom state, defaults to ``False``.
         :type zoom: bool
-        :raide tello_controlException: An exception is raised if the zoom state is changed while recording a video file.
+        :raide tello_ctrlException: An exception is raised if the zoom state is changed while recording a video file.
         
         """
         if self.__recording_enabled and zoom != self.__zoom:
-            raise tello_controlException('You cannot change zoom setting while recording')
+            raise tello_ctrlException('You cannot change zoom setting while recording')
         
         self.__LOGGER.info('set video mode zoom=%s (cmd=0x%02x seq=0x%04x)' % (
             zoom, VIDEO_START_CMD, self.__pkt_seq_num))
@@ -1315,14 +1317,14 @@ class tello_control(object):
         return self.__send_packet(pkt)
 
     def start_receiving_video(self,downsample_factor=1, timeout=15,  video_format='rgb24'):
-        """Request video from the drone. It is mandatory to call :meth:`~tello_control.tello_control.start_receiving_video` before accessing the frame with :meth:`~tello_control.tello_control.get_frame`.
+        """Request video from the drone. It is mandatory to call :meth:`~tello_ctrl.tello_ctrl.start_receiving_video` before accessing the frame with :meth:`~tello_ctrl.tello_ctrl.get_frame`.
         Due to the Tello drone limitations and the pyav video decoder , it can takes a significant amount of time before being able to get an image from. So please use a ``time_out`` greater than 10 seconds.
         
         :param downsample_factor: Allows to downsample the image height&width by the specified factor, defaults to 1.
         :type downsample_factor: integer
         :param time_out: Maximum amount of time allowed to receive the first frame, defaults to 15 seconds.
-        :raise tello_controlException: An exception is raised if the video is already started.
-        :raise tello_controlException: An exception is raised if no frame is received within the ``time_out`` perdiod.
+        :raise tello_ctrlException: An exception is raised if the video is already started.
+        :raise tello_ctrlException: An exception is raised if no frame is received within the ``time_out`` perdiod.
         :raise ValueError: An exception is raised if ``downsample_factor`` is not greater or equal to one
         :raise ValueError: An exception is raised if the video_format is not 'rgb24' or 'bgr24'.
 
@@ -1332,7 +1334,7 @@ class tello_control(object):
             raise ValueError('downsample_factor must be  greater or equal to one')
             
         if self.__video_enabled or self.__video_stream is not None:
-            raise tello_controlException('Video reception is already activated')
+            raise tello_ctrlException('Video reception is already activated')
         
         if video_format != 'bgr24' and video_format != 'rgb24':
             raise ValueError('Invalid video_format, should be "bgr24" or "rgb24".')
@@ -1364,7 +1366,7 @@ class tello_control(object):
         # use a large timeout as it can take some times before receiving the first frame
         img=self.get_frame(timeout)
         if img is None:
-            raise tello_controlException('Error while receiving video')
+            raise tello_ctrlException('Error while receiving video')
         else:
             self.__LOGGER.info('  => First frame received')
 
@@ -1394,8 +1396,8 @@ class tello_control(object):
         :param timeout: Maximum time allowed to closed the video container used to decode the drone video stream, defaults to 5 seconds.
         :type timeout: int
         :param video_format: `rgb24` or `bgr24`` to indicate the order or the R, G, B plane. cv2 uses bgr24.
-        :raise tello_controlException: An exception is raised if the video receiption was not started.
-        :raise tello_controlException: An exception is raised if the video container is not closed within the ``time_out`` period.
+        :raise tello_ctrlException: An exception is raised if the video receiption was not started.
+        :raise tello_ctrlException: An exception is raised if the video container is not closed within the ``time_out`` period.
         """
         
         if self.__recording_enabled:
@@ -1403,7 +1405,7 @@ class tello_control(object):
             self.stop_recording_to_file()
             
         if not self.__video_enabled:
-            raise tello_controlException('Video is not alreadyh started')
+            raise tello_ctrlException('Video is not alreadyh started')
         
           
         # Stop receiving video
@@ -1419,7 +1421,7 @@ class tello_control(object):
             else:
                 self.__LOGGER.error('self.__video_stream is not None:')
             
-            raise tello_controlException('Error while stopping the video reception')
+            raise tello_ctrlException('Error while stopping the video reception')
         
         
 
@@ -1566,7 +1568,7 @@ class tello_control(object):
                 
         # Check if stream container was opened 
         if self.__stream_container is None and self.__video_enabled:
-            raise tello_controlException('Impossible to retrieve video stream using pyav')
+            raise tello_ctrlException('Impossible to retrieve video stream using pyav')
         elif not self.__video_enabled:
             # For some reason decoding is not needed due to the delay taken by the stream opening
             self.__stream_container.close()
@@ -1649,7 +1651,7 @@ class tello_control(object):
     def get_frame_with_no(self, timeout=1):
         """This function returns an RGB frame as a numpy array. The array size is H x W x 3.
         If the frame is not recived within the ``time_out`` period, the last available frame is returned (may be ``None`` if no frame has already been received).
-        If the video reception is not started using :meth:`~tello_control.tello_control.start_receiving_video`, then the last available frame is returned.
+        If the video reception is not started using :meth:`~tello_ctrl.tello_ctrl.start_receiving_video`, then the last available frame is returned.
         
         :param time_out: Maximum amount of time allowed to receive a frame, defaults to 1 seconds.
         :type time_out: int
@@ -1675,7 +1677,7 @@ class tello_control(object):
     def get_frame(self, timeout=1):
         """This function returns an RGB frame as a numpy array. The array size is H x W x 3.
         If the frame is not recived within the ``time_out`` period, the last available frame is returned (may be ``None`` if no frame has already been received).
-        If the video reception is not started using :meth:`~tello_control.tello_control.start_receiving_video`, then the last available frame is returned.
+        If the video reception is not started using :meth:`~tello_ctrl.tello_ctrl.start_receiving_video`, then the last available frame is returned.
         
         :param time_out: Maximum amount of time allowed to receive a frame, defaults to 1 seconds.
         :type time_out: int
@@ -1722,7 +1724,7 @@ class tello_control(object):
 
 
     def start_recording_video_to_file(self,file_name, frame_skip=0):
-        """Starts recording the video to the specified file. The video should be already started using :meth:`~tello_control.tello_control.start_receiving_video`.
+        """Starts recording the video to the specified file. The video should be already started using :meth:`~tello_ctrl.tello_ctrl.start_receiving_video`.
         The Tello Drone sends the video at a nominal 30 FPS rate. It is possible to skip some frame by indicating a positive ``frame_skip`` value. 
         It is not possible to change the zoom state while recording a video.
         
@@ -1733,8 +1735,8 @@ class tello_control(object):
         :type file_name: str
         :param frame_skip: Only one frame every ``frame_skip`` will be saved in the video file. It defaults to 0 (all the frames are kept).
         :type frame_skip: int
-        :raise tello_controlException: An exception is raised if the video is not started yet using :meth:`~tello_control.tello_control.start_receiving_video`.
-        :raise tello_controlException: An exception is raised if a video is alrady being recorded.
+        :raise tello_ctrlException: An exception is raised if the video is not started yet using :meth:`~tello_ctrl.tello_ctrl.start_receiving_video`.
+        :raise tello_ctrlException: An exception is raised if a video is alrady being recorded.
         :raise ValueError: An exception is raised if frame_skip is not positive or null.
         
         """
@@ -1744,10 +1746,10 @@ class tello_control(object):
         
         # check that video is on
         if not self.__video_enabled:
-            raise tello_controlException('You must first start receiving video (by calling start_receiving_video)')
+            raise tello_ctrlException('You must first start receiving video (by calling start_receiving_video)')
             
         if self.__recording_enabled:
-            raise tello_controlException('A video file is already being recorded')
+            raise tello_ctrlException('A video file is already being recorded')
 
             
         if frame_skip<0:
@@ -1802,7 +1804,7 @@ class tello_control(object):
 
     def start_data_logging(self, file_name, sampling_time=0.1, mode='w', sensor_list=[]):
         """Starts logging received data to the specified CSV file with a specified ``sampling_time``. 
-        When sampling time is negative, the data are not logged automatically but only when :meth:`~tello_control.tello_control.data_logging_request` is called.
+        When sampling time is negative, the data are not logged automatically but only when :meth:`~tello_ctrl.tello_ctrl.data_logging_request` is called.
         The ``mode`` parameter can take 2 values:
         
             * ``"w"``: overwrite the file if it already exists.
@@ -1812,15 +1814,15 @@ class tello_control(object):
         :type file_name: str
         :param sampling_time: interval of time between two record in the log file.
         :type sampling_time: float
-        :param sensor_list: List of sensor to be recorded, default to [] (all the available sensors). Available sensors can be obtained using :meth:`~tello_control.tello_control.get_sensor_list`
+        :param sensor_list: List of sensor to be recorded, default to [] (all the available sensors). Available sensors can be obtained using :meth:`~tello_ctrl.tello_ctrl.get_sensor_list`
         :type sensor_list: [str]
-        :raise tello_controlException: An exception is raised if the logger is already started.
+        :raise tello_ctrlException: An exception is raised if the logger is already started.
         :raise ValueError: An exception is raised if mode is not ``"a"`` or ``"w"``.
         
         """
         
         if self.__DATA_LOGGER_FILEHANDLER is not None:
-            raise tello_controlException('Data are already logged. Use stop_data_logging first')
+            raise tello_ctrlException('Data are already logged. Use stop_data_logging first')
         
         if mode!='w' and mode!='a':
             raise ValueError('mode must be "a" or "w", not %s.' % (mode))
@@ -1893,11 +1895,11 @@ class tello_control(object):
     def stop_data_logging(self):
         """Stops the data logger.
         
-        :raise tello_controlException: An exception is raised if the data logger was not previously started using :meth:`~tello_control.tello_control.start_data_logging`.
+        :raise tello_ctrlException: An exception is raised if the data logger was not previously started using :meth:`~tello_ctrl.tello_ctrl.start_data_logging`.
         
         """
         if self.__DATA_LOGGER_FILEHANDLER is  None: 
-            raise tello_controlException('Data logger is not logged yet. Use start_data_logging first')
+            raise tello_ctrlException('Data logger is not logged yet. Use start_data_logging first')
         self.__DATA_LOGGER.removeHandler(self.__DATA_LOGGER_FILEHANDLER)
         
         self.__DATA_LOGGER_FILEHANDLER = None
@@ -1907,13 +1909,13 @@ class tello_control(object):
     def data_logging_request(self):
         """Manually log the data in the log file.
         
-        :raise tello_controlException: An exception is raised if the data logger was not previously started using :meth:`~tello_control.tello_control.start_data_logging`.
+        :raise tello_ctrlException: An exception is raised if the data logger was not previously started using :meth:`~tello_ctrl.tello_ctrl.start_data_logging`.
         
         """
         
         # log data upon request
         if  self.__DATA_LOGGER_FILEHANDLER is None:
-            raise tello_controlException('Data logger is not started yet. Use start_data_logging first')
+            raise tello_ctrlException('Data logger is not started yet. Use start_data_logging first')
 
         data_str='{0:.3f};'.format(time.time())
         
@@ -1928,9 +1930,9 @@ class tello_control(object):
             for i in range(len(self.__control_list)):
                 if i<4:
                     # controls values needs to be shifted in the -100/100 range
-                    data_str+='%.10e;'%(100*getattr(self,"_tello_control"+'__'+self.__control_list[i]))
+                    data_str+='%.10e;'%(100*getattr(self,"_tello_ctrl"+'__'+self.__control_list[i]))
                 else:
-                    data_str+='%.10e;'%(getattr(self,"_tello_control"+'__'+self.__control_list[i]))
+                    data_str+='%.10e;'%(getattr(self,"_tello_ctrl"+'__'+self.__control_list[i]))
                 
         else:
             # Record some data in the order of self.__DATA_LOGGER_SENSOR_LIST
@@ -1943,9 +1945,9 @@ class tello_control(object):
                     # Current sensor is in self.__control_list
                     if idx<4:
                         # controls values needs to be shifted in the -100/100 range
-                        data_str+='%.10e;'%(100*getattr(self,"_tello_control"+'__'+self.__control_list[idx]))
+                        data_str+='%.10e;'%(100*getattr(self,"_tello_ctrl"+'__'+self.__control_list[idx]))
                     else:
-                        data_str+='%.10e;'%(getattr(self,"_tello_control"+'__'+self.__control_list[idx]))
+                        data_str+='%.10e;'%(getattr(self,"_tello_ctrl"+'__'+self.__control_list[idx]))
         
         # Add data to the recorder
         self.__DATA_LOGGER.info(data_str)
@@ -1953,7 +1955,7 @@ class tello_control(object):
     def __start_live_video(self, position=None, size=None, stay_on_top=False):
         """ not working yet as cv2 crashes when called within a thread"""
         if not self.__video_enabled:
-            raise tello_controlException('You must first start receiving video (by calling start_receiving_video)')
+            raise tello_ctrlException('You must first start receiving video (by calling start_receiving_video)')
         
         cv2.namedWindow(self.__live_view_windows_name, cv2.WINDOW_NORMAL)
         if size is not None:

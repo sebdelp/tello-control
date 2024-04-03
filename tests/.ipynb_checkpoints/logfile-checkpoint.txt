@@ -1,28 +1,28 @@
-[2024-04-03 15:02:28,053 INFO] tello_control.py - 1346 - Start receiving video
-[2024-04-03 15:02:28,055 DEBUG] tello_control.py - 1353 -   => create video stream
-[2024-04-03 15:02:28,056 DEBUG] tello_control.py - 1359 -   => create video thread
-[2024-04-03 15:02:28,057 DEBUG] tello_control.py - 353 - *** __data_reception_thread: __send_start_video
-[2024-04-03 15:02:28,060 DEBUG] tello_control.py - 1363 -   => create video decoding thread
-[2024-04-03 15:02:28,061 DEBUG] tello_control.py - 1540 - Video decoding thread : Wait for the first raw frame
-[2024-04-03 15:02:28,057 INFO] tello_control.py - 1430 - start video thread
-[2024-04-03 15:02:28,063 DEBUG] tello_control.py - 1437 - video_thread : socket open
-[2024-04-03 15:02:28,063 DEBUG] tello_control.py - 1452 - video_thread : self.__video_enabled : True
-[2024-04-03 15:02:28,064 DEBUG] tello_control.py - 1453 - video_thread : self.__first_raw_frame_received : False
-[2024-04-03 15:02:29,074 ERROR] tello_control.py - 1513 - video recv: timeout
-[2024-04-03 15:02:30,088 ERROR] tello_control.py - 1513 - video recv: timeout
-[2024-04-03 15:02:30,105 DEBUG] tello_control.py - 353 - *** __data_reception_thread: __send_start_video
-[2024-04-03 15:02:31,102 ERROR] tello_control.py - 1513 - video recv: timeout
-[2024-04-03 15:02:32,115 ERROR] tello_control.py - 1513 - video recv: timeout
-[2024-04-03 15:02:32,153 DEBUG] tello_control.py - 353 - *** __data_reception_thread: __send_start_video
-[2024-04-03 15:02:33,128 ERROR] tello_control.py - 1513 - video recv: timeout
-[2024-04-03 15:02:34,141 ERROR] tello_control.py - 1513 - video recv: timeout
-[2024-04-03 15:02:34,197 DEBUG] tello_control.py - 353 - *** __data_reception_thread: __send_start_video
-[2024-04-03 15:02:35,156 ERROR] tello_control.py - 1513 - video recv: timeout
-[2024-04-03 15:02:36,162 ERROR] tello_control.py - 1513 - video recv: timeout
-[2024-04-03 15:02:36,240 DEBUG] tello_control.py - 353 - *** __data_reception_thread: __send_start_video
-[2024-04-03 15:02:37,172 ERROR] tello_control.py - 1513 - video recv: timeout
-[2024-04-03 15:02:38,187 ERROR] tello_control.py - 1513 - video recv: timeout
-[2024-04-03 15:02:38,810 ERROR] tello_control.py - 361 - data_reception_thread: timeout
-[2024-04-03 15:02:38,813 DEBUG] tello_control.py - 603 - send connection request (cmd="conn_req:9617")
-[2024-04-03 15:02:38,813 INFO] tello_control.py - 927 - state transit State::connected -> State::connecting
-[2024-04-03 15:02:39,199 ERROR] tello_control.py - 1513 - video recv: timeout
+[2024-04-03 15:02:28,053 INFO] tello_ctrl.py - 1346 - Start receiving video
+[2024-04-03 15:02:28,055 DEBUG] tello_ctrl.py - 1353 -   => create video stream
+[2024-04-03 15:02:28,056 DEBUG] tello_ctrl.py - 1359 -   => create video thread
+[2024-04-03 15:02:28,057 DEBUG] tello_ctrl.py - 353 - *** __data_reception_thread: __send_start_video
+[2024-04-03 15:02:28,060 DEBUG] tello_ctrl.py - 1363 -   => create video decoding thread
+[2024-04-03 15:02:28,061 DEBUG] tello_ctrl.py - 1540 - Video decoding thread : Wait for the first raw frame
+[2024-04-03 15:02:28,057 INFO] tello_ctrl.py - 1430 - start video thread
+[2024-04-03 15:02:28,063 DEBUG] tello_ctrl.py - 1437 - video_thread : socket open
+[2024-04-03 15:02:28,063 DEBUG] tello_ctrl.py - 1452 - video_thread : self.__video_enabled : True
+[2024-04-03 15:02:28,064 DEBUG] tello_ctrl.py - 1453 - video_thread : self.__first_raw_frame_received : False
+[2024-04-03 15:02:29,074 ERROR] tello_ctrl.py - 1513 - video recv: timeout
+[2024-04-03 15:02:30,088 ERROR] tello_ctrl.py - 1513 - video recv: timeout
+[2024-04-03 15:02:30,105 DEBUG] tello_ctrl.py - 353 - *** __data_reception_thread: __send_start_video
+[2024-04-03 15:02:31,102 ERROR] tello_ctrl.py - 1513 - video recv: timeout
+[2024-04-03 15:02:32,115 ERROR] tello_ctrl.py - 1513 - video recv: timeout
+[2024-04-03 15:02:32,153 DEBUG] tello_ctrl.py - 353 - *** __data_reception_thread: __send_start_video
+[2024-04-03 15:02:33,128 ERROR] tello_ctrl.py - 1513 - video recv: timeout
+[2024-04-03 15:02:34,141 ERROR] tello_ctrl.py - 1513 - video recv: timeout
+[2024-04-03 15:02:34,197 DEBUG] tello_ctrl.py - 353 - *** __data_reception_thread: __send_start_video
+[2024-04-03 15:02:35,156 ERROR] tello_ctrl.py - 1513 - video recv: timeout
+[2024-04-03 15:02:36,162 ERROR] tello_ctrl.py - 1513 - video recv: timeout
+[2024-04-03 15:02:36,240 DEBUG] tello_ctrl.py - 353 - *** __data_reception_thread: __send_start_video
+[2024-04-03 15:02:37,172 ERROR] tello_ctrl.py - 1513 - video recv: timeout
+[2024-04-03 15:02:38,187 ERROR] tello_ctrl.py - 1513 - video recv: timeout
+[2024-04-03 15:02:38,810 ERROR] tello_ctrl.py - 361 - data_reception_thread: timeout
+[2024-04-03 15:02:38,813 DEBUG] tello_ctrl.py - 603 - send connection request (cmd="conn_req:9617")
+[2024-04-03 15:02:38,813 INFO] tello_ctrl.py - 927 - state transit State::connected -> State::connecting
+[2024-04-03 15:02:39,199 ERROR] tello_ctrl.py - 1513 - video recv: timeout

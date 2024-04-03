@@ -1,10 +1,10 @@
-tello_control package
+tello\_control package
 ======================
 
 
-.. automodule:: tello_control.tello_control
+
+
+.. automodule:: tello_ctrl
    :members:
    :undoc-members:
    :show-inheritance:
-
-

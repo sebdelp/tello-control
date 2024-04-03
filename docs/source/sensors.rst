@@ -17,7 +17,7 @@ if some of them are computed signals or drone status.
 Sending controls
 ****************
 
-Takeoff and landing are achived using :meth:`~tello_control.tello_control.takeoff` and :meth:`~tello_control.tello_control.land`.
+Takeoff and landing are achived using :meth:`~tello_ctrl.tello_ctrl.takeoff` and :meth:`~tello_ctrl.tello_ctrl.land`.
 They both accept an optional `bool` parameter `blocking`. The default value blocks the program execution until the end of the takeoff 
 or landing phase. Note that the takeoff phase can be quite long as it includes internal initialization (Inertial Measurement Unit (IMU), etc).
 An optional `timeout` parameter can also be passed.
@@ -26,33 +26,33 @@ An optional `timeout` parameter can also be passed.
 The drone is control by the four stick positions: left_right, forward_backward, up_down and yaw.
 There also exist a fast_mode switch.
 
-The stick positions can be set four at a time using :meth:`~tello_control.tello_control.send_rc_control`.
-The fast_mode can be set using :meth:`~tello_control.tello_control.set_fast_mode`.
+The stick positions can be set four at a time using :meth:`~tello_ctrl.tello_ctrl.send_rc_control`.
+The fast_mode can be set using :meth:`~tello_ctrl.tello_ctrl.set_fast_mode`.
 
 Individual axis movements can be set using the following methods (they all start with `move_`). 
 They all requires parameter in the 0-100 value range.
 
-   * Longitudinal axis: :meth:`~tello_control.tello_control.move_backward`, :meth:`~tello_control.tello_control.move_forward`
-   * Vertical axis: :meth:`~tello_control.tello_control.move_up`, :meth:`~tello_control.tello_control.move_down`
-   * Lateral axis: :meth:`~tello_control.tello_control.move_right`, :meth:`~tello_control.tello_control.move_left`
-   * Rotation around vertical axis : :meth:`~tello_control.tello_control.move_clockwise` :meth:`~tello_control.tello_control.move_counter_clockwise`
+   * Longitudinal axis: :meth:`~tello_ctrl.tello_ctrl.move_backward`, :meth:`~tello_ctrl.tello_ctrl.move_forward`
+   * Vertical axis: :meth:`~tello_ctrl.tello_ctrl.move_up`, :meth:`~tello_ctrl.tello_ctrl.move_down`
+   * Lateral axis: :meth:`~tello_ctrl.tello_ctrl.move_right`, :meth:`~tello_ctrl.tello_ctrl.move_left`
+   * Rotation around vertical axis : :meth:`~tello_ctrl.tello_ctrl.move_clockwise` :meth:`~tello_ctrl.tello_ctrl.move_counter_clockwise`
    
 Alternatively, the individual stick position can be set in the -100/100 range using:
-:meth:`~tello_control.tello_control.set_forward_backward`,
-:meth:`~tello_control.tello_control.set_left_right`,
-:meth:`~tello_control.tello_control.set_up_down`,
-:meth:`~tello_control.tello_control.set_yaw`
+:meth:`~tello_ctrl.tello_ctrl.set_forward_backward`,
+:meth:`~tello_ctrl.tello_ctrl.set_left_right`,
+:meth:`~tello_ctrl.tello_ctrl.set_up_down`,
+:meth:`~tello_ctrl.tello_ctrl.set_yaw`
 
 
 You may also perform accrobatic flips (they all start with `flip_`) using:
-:meth:`~tello_control.tello_control.flip_back`,
-:meth:`~tello_control.tello_control.flip_backleft`,
-:meth:`~tello_control.tello_control.flip_backright`,
-:meth:`~tello_control.tello_control.flip_forward`,
-:meth:`~tello_control.tello_control.flip_forwardleft`,
-:meth:`~tello_control.tello_control.flip_forwardright`,
-:meth:`~tello_control.tello_control.flip_left`,
-:meth:`~tello_control.tello_control.flip_right`,
+:meth:`~tello_ctrl.tello_ctrl.flip_back`,
+:meth:`~tello_ctrl.tello_ctrl.flip_backleft`,
+:meth:`~tello_ctrl.tello_ctrl.flip_backright`,
+:meth:`~tello_ctrl.tello_ctrl.flip_forward`,
+:meth:`~tello_ctrl.tello_ctrl.flip_forwardleft`,
+:meth:`~tello_ctrl.tello_ctrl.flip_forwardright`,
+:meth:`~tello_ctrl.tello_ctrl.flip_left`,
+:meth:`~tello_ctrl.tello_ctrl.flip_right`,
 
 
 
@@ -61,54 +61,54 @@ You may also perform accrobatic flips (they all start with `flip_`) using:
 Reading sensor values
 *********************
 
-There exists a few different ways to get the sensors values. All the related methods of the :class:`~tello_control.tello_control` 
+There exists a few different ways to get the sensors values. All the related methods of the :class:`~tello_ctrl.tello_ctrl` 
 object start with `get_`.
 
-First, it is possible to get the list of all the available sensors using :meth:`~tello_control.tello_control.get_sensor_list`.
+First, it is possible to get the list of all the available sensors using :meth:`~tello_ctrl.tello_ctrl.get_sensor_list`.
 
-You may them get some (or all) the values using their names with :meth:`~tello_control.tello_control.get_sensor_values_by_name`.
-Alternatively, you may retrieve the values using their index with :meth:`~tello_control.tello_control.get_sensor_values_by_index`. 
-You may use :meth:`~tello_control.tello_control.get_sensors_idx` to retrieve a sensor index using its name.
+You may them get some (or all) the values using their names with :meth:`~tello_ctrl.tello_ctrl.get_sensor_values_by_name`.
+Alternatively, you may retrieve the values using their index with :meth:`~tello_ctrl.tello_ctrl.get_sensor_values_by_index`. 
+You may use :meth:`~tello_ctrl.tello_ctrl.get_sensors_idx` to retrieve a sensor index using its name.
 
-:meth:`~tello_control.tello_control.get_sensor_values_by_name` should be prefered method as it is robust to future code change. 
-*There is no garanty that in the future release of the `tello_control` package, the sensor list remains in the same order.*
+:meth:`~tello_ctrl.tello_ctrl.get_sensor_values_by_name` should be prefered method as it is robust to future code change. 
+*There is no garanty that in the future release of the `tello_ctrl` package, the sensor list remains in the same order.*
 
 Here are the methods available to retrieve data:
 
    * Sensor by name or index 
    
-       :meth:`~tello_control.tello_control.get_sensor_list`,
-       :meth:`~tello_control.tello_control.get_sensor_values_by_index`,
-       :meth:`~tello_control.tello_control.get_sensor_values_by_name`,
-       :meth:`~tello_control.tello_control.get_sensors_idx`
+       :meth:`~tello_ctrl.tello_ctrl.get_sensor_list`,
+       :meth:`~tello_ctrl.tello_ctrl.get_sensor_values_by_index`,
+       :meth:`~tello_ctrl.tello_ctrl.get_sensor_values_by_name`,
+       :meth:`~tello_ctrl.tello_ctrl.get_sensors_idx`
 
 
    * Drone state
    
-	   :meth:`~tello_control.tello_control.get_accelerometer`, 
-	   :meth:`~tello_control.tello_control.get_drone_velocity`, 
-	   :meth:`~tello_control.tello_control.get_euler_angle`, 
-	   :meth:`~tello_control.tello_control.get_ground_velocity`, 
-	   :meth:`~tello_control.tello_control.get_gyros`, 
-	   :meth:`~tello_control.tello_control.get_position`, 
-	   :meth:`~tello_control.tello_control.get_position`, 
-	   :meth:`~tello_control.tello_control.get_position`, 
-	   :meth:`~tello_control.tello_control.get_position`, 
+	   :meth:`~tello_ctrl.tello_ctrl.get_accelerometer`, 
+	   :meth:`~tello_ctrl.tello_ctrl.get_drone_velocity`, 
+	   :meth:`~tello_ctrl.tello_ctrl.get_euler_angle`, 
+	   :meth:`~tello_ctrl.tello_ctrl.get_ground_velocity`, 
+	   :meth:`~tello_ctrl.tello_ctrl.get_gyros`, 
+	   :meth:`~tello_ctrl.tello_ctrl.get_position`, 
+	   :meth:`~tello_ctrl.tello_ctrl.get_position`, 
+	   :meth:`~tello_ctrl.tello_ctrl.get_position`, 
+	   :meth:`~tello_ctrl.tello_ctrl.get_position`, 
    
    * Drone status
 
-	   :meth:`~tello_control.tello_control.get_fly_mode`, 
-	   :meth:`~tello_control.tello_control.get_mvo_pos_valid`, 
-	   :meth:`~tello_control.tello_control.get_mvo_vel_valid`, 
+	   :meth:`~tello_ctrl.tello_ctrl.get_fly_mode`, 
+	   :meth:`~tello_ctrl.tello_ctrl.get_mvo_pos_valid`, 
+	   :meth:`~tello_ctrl.tello_ctrl.get_mvo_vel_valid`, 
 
    * Miscellaneous
 
-	   :meth:`~tello_control.tello_control.get_battery`, 
+	   :meth:`~tello_ctrl.tello_ctrl.get_battery`, 
    
    * Controls
 
-	   :meth:`~tello_control.tello_control.get_fast_mode`, 
-	   :meth:`~tello_control.tello_control.get_control`, 
+	   :meth:`~tello_ctrl.tello_ctrl.get_fast_mode`, 
+	   :meth:`~tello_ctrl.tello_ctrl.get_control`, 
    
 
 
@@ -303,9 +303,9 @@ better estimation of the position and angles. All the corresponding sensor name 
 Controls
 ********
 
-The :class:`~tello_control.tello_control` object allows sending control to the drone. 
-The actual control values can be retrieved along the sensor measurements using :meth:`~tello_control.tello_control:get_sensor_values_by_index` 
-or :meth:`~tello_control.tello_control:get_sensor_values_by_name`.
+The :class:`~tello_ctrl.tello_ctrl` object allows sending control to the drone. 
+The actual control values can be retrieved along the sensor measurements using :meth:`~tello_ctrl.tello_ctrl:get_sensor_values_by_index` 
+or :meth:`~tello_ctrl.tello_ctrl:get_sensor_values_by_name`.
 
 The controls corresponds to the stick four position and a ``fast_mode`` command.
 

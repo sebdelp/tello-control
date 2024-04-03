@@ -3,7 +3,7 @@
 This is a package to control your Tello Drone. A significant part of the code is from the TelloPy package 
 from Hanyazou and the original GOBOT project (https://gobot.io/blog/2018/04/20/hello-tello-hacking-drones-with-go)
 
-![photo](images/telloDrone.jpg.jpg)
+![photo](images/telloDrone.jpg)
 
 Compared with the existing package, this has
 + a documentation

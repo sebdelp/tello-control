@@ -1,7 +1,7 @@
-tello_control
+tello_ctrl
 ==============
 
 .. toctree::
    :maxdepth: 4
 
-   tello_control
+   tello_ctrl

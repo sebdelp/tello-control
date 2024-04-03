@@ -1,32 +1,32 @@
-[2024-04-03 17:22:59,797 INFO] tello_control.py - 1343 - Start receiving video
-[2024-04-03 17:22:59,797 DEBUG] tello_control.py - 1350 -   => create video stream
-[2024-04-03 17:22:59,797 DEBUG] tello_control.py - 1356 -   => create video thread
-[2024-04-03 17:22:59,798 INFO] tello_control.py - 1427 - start video thread
-[2024-04-03 17:22:59,798 DEBUG] tello_control.py - 1360 -   => create video decoding thread
-[2024-04-03 17:22:59,798 DEBUG] tello_control.py - 1434 - video_thread : socket open
-[2024-04-03 17:22:59,798 DEBUG] tello_control.py - 1449 - video_thread : self.__video_enabled : True
-[2024-04-03 17:22:59,798 DEBUG] tello_control.py - 1544 - Video decoding thread : Wait for the first raw frame
-[2024-04-03 17:22:59,798 DEBUG] tello_control.py - 1450 - video_thread : self.__first_raw_frame_received : False
-[2024-04-03 17:22:59,804 DEBUG] tello_control.py - 1495 - First raw frame received
-[2024-04-03 17:22:59,906 DEBUG] tello_control.py - 1553 - Opening stream_container
-[2024-04-03 17:23:01,799 DEBUG] tello_control.py - 1514 - *** __data_reception_thread: __send_start_video
-[2024-04-03 17:23:02,046 INFO] tello_control.py - 1576 - Video decoding start now
-[2024-04-03 17:23:02,046 INFO] tello_control.py - 1581 - try decoding
-[2024-04-03 17:23:02,126 INFO] tello_control.py - 1369 -   => First frame received
-[2024-04-03 17:23:02,189 INFO] tello_control.py - 1788 - Start recording using 30 fps
-[2024-04-03 17:23:02,203 INFO] tello_control.py - 1114 - set_yaw(val=20.00)
-[2024-04-03 17:23:03,800 DEBUG] tello_control.py - 1514 - *** __data_reception_thread: __send_start_video
-[2024-04-03 17:23:05,212 INFO] tello_control.py - 1114 - set_yaw(val=0.00)
-[2024-04-03 17:23:05,739 INFO] tello_control.py - 1639 - Closing video container
-[2024-04-03 17:23:05,800 DEBUG] tello_control.py - 1514 - *** __data_reception_thread: __send_start_video
-[2024-04-03 17:23:05,881 INFO] tello_control.py - 1800 - Video recording stopped
-[2024-04-03 17:23:07,801 DEBUG] tello_control.py - 1514 - *** __data_reception_thread: __send_start_video
-[2024-04-03 17:23:07,931 INFO] tello_control.py - 1530 - Exit from the video thread (False).
+[2024-04-03 17:22:59,797 INFO] tello_ctrl.py - 1343 - Start receiving video
+[2024-04-03 17:22:59,797 DEBUG] tello_ctrl.py - 1350 -   => create video stream
+[2024-04-03 17:22:59,797 DEBUG] tello_ctrl.py - 1356 -   => create video thread
+[2024-04-03 17:22:59,798 INFO] tello_ctrl.py - 1427 - start video thread
+[2024-04-03 17:22:59,798 DEBUG] tello_ctrl.py - 1360 -   => create video decoding thread
+[2024-04-03 17:22:59,798 DEBUG] tello_ctrl.py - 1434 - video_thread : socket open
+[2024-04-03 17:22:59,798 DEBUG] tello_ctrl.py - 1449 - video_thread : self.__video_enabled : True
+[2024-04-03 17:22:59,798 DEBUG] tello_ctrl.py - 1544 - Video decoding thread : Wait for the first raw frame
+[2024-04-03 17:22:59,798 DEBUG] tello_ctrl.py - 1450 - video_thread : self.__first_raw_frame_received : False
+[2024-04-03 17:22:59,804 DEBUG] tello_ctrl.py - 1495 - First raw frame received
+[2024-04-03 17:22:59,906 DEBUG] tello_ctrl.py - 1553 - Opening stream_container
+[2024-04-03 17:23:01,799 DEBUG] tello_ctrl.py - 1514 - *** __data_reception_thread: __send_start_video
+[2024-04-03 17:23:02,046 INFO] tello_ctrl.py - 1576 - Video decoding start now
+[2024-04-03 17:23:02,046 INFO] tello_ctrl.py - 1581 - try decoding
+[2024-04-03 17:23:02,126 INFO] tello_ctrl.py - 1369 -   => First frame received
+[2024-04-03 17:23:02,189 INFO] tello_ctrl.py - 1788 - Start recording using 30 fps
+[2024-04-03 17:23:02,203 INFO] tello_ctrl.py - 1114 - set_yaw(val=20.00)
+[2024-04-03 17:23:03,800 DEBUG] tello_ctrl.py - 1514 - *** __data_reception_thread: __send_start_video
+[2024-04-03 17:23:05,212 INFO] tello_ctrl.py - 1114 - set_yaw(val=0.00)
+[2024-04-03 17:23:05,739 INFO] tello_ctrl.py - 1639 - Closing video container
+[2024-04-03 17:23:05,800 DEBUG] tello_ctrl.py - 1514 - *** __data_reception_thread: __send_start_video
+[2024-04-03 17:23:05,881 INFO] tello_ctrl.py - 1800 - Video recording stopped
+[2024-04-03 17:23:07,801 DEBUG] tello_ctrl.py - 1514 - *** __data_reception_thread: __send_start_video
+[2024-04-03 17:23:07,931 INFO] tello_ctrl.py - 1530 - Exit from the video thread (False).
 [2024-04-03 17:23:07,931 DEBUG] video_stream.py - 60 - End stream****
-[2024-04-03 17:23:07,939 INFO] tello_control.py - 1630 - Cleaning before end of video decoding thread
-[2024-04-03 17:23:07,940 INFO] tello_control.py - 1639 - Closing video container
-[2024-04-03 17:23:07,995 INFO] tello_control.py - 560 - land (cmd=0x55 seq=0x01e4)
-[2024-04-03 17:23:13,121 DEBUG] tello_control.py - 865 - Stopping reception thread
-[2024-04-03 17:23:13,121 INFO] tello_control.py - 924 - state transit State::connected -> State::quit
-[2024-04-03 17:23:13,169 DEBUG] tello_control.py - 366 - End of drone reception
-[2024-04-03 17:23:13,231 INFO] tello_control.py - 874 - Reception thread stopped
+[2024-04-03 17:23:07,939 INFO] tello_ctrl.py - 1630 - Cleaning before end of video decoding thread
+[2024-04-03 17:23:07,940 INFO] tello_ctrl.py - 1639 - Closing video container
+[2024-04-03 17:23:07,995 INFO] tello_ctrl.py - 560 - land (cmd=0x55 seq=0x01e4)
+[2024-04-03 17:23:13,121 DEBUG] tello_ctrl.py - 865 - Stopping reception thread
+[2024-04-03 17:23:13,121 INFO] tello_ctrl.py - 924 - state transit State::connected -> State::quit
+[2024-04-03 17:23:13,169 DEBUG] tello_ctrl.py - 366 - End of drone reception
+[2024-04-03 17:23:13,231 INFO] tello_ctrl.py - 874 - Reception thread stopped

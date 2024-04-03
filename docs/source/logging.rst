@@ -4,24 +4,24 @@ Logging
 Data logging in background
 **************************
 
-Once the drone is connected, it is possible ot automatically record some or all the data (sensor & control values) using the :meth:`~tello_control.tello_control.start_data_logging` method.
+Once the drone is connected, it is possible ot automatically record some or all the data (sensor & control values) using the :meth:`~tello_ctrl.tello_ctrl.start_data_logging` method.
 The file name is a manadatory parameter. Additionnaly, you may specify the sampling tile using the `sampling_time` parameter. The list of sensor to be recorded using 
-the `sensor_list` parameter and must contains a list of sensor name. You can get the list of available sensor with the meth:`~tello_control.tello_control.get_sensor_list`
+the `sensor_list` parameter and must contains a list of sensor name. You can get the list of available sensor with the meth:`~tello_ctrl.tello_ctrl.get_sensor_list`
 method. The list of available data is discussed here : :ref:`available_sensor_and_controls`. The optional `mode` parameter allows to specify wether data should be added to an existing file (`mode="a"`)
 or the file shoule be be over written (`mode="w"`).
 
 The data are logged in a CSV file where each column is separated using the `";"` character.
 
-You must stop the recording using the :meth:`~tello_control.tello_control.stop_data_logging` method.
+You must stop the recording using the :meth:`~tello_ctrl.tello_ctrl.stop_data_logging` method.
 
 The following code illustrate how to record the data at 10Hz.
 
 .. code-block:: python
 
-	from tello_control import *
+	from tello_ctrl import *
 	import time
 	
-	drone = tello_control()
+	drone = tello_ctrl()
 	drone.connect()
 	
 	# Start logging all the data at 10Hz
@@ -43,10 +43,10 @@ Alternatively, you may want to only record a subset of the data. Here is how to 
 
 .. code-block:: python
 
-	from tello_control import *
+	from tello_ctrl import *
 	import time
 	
-	drone = tello_control()
+	drone = tello_ctrl()
 	drone.connect()
 	
 	# Start logging all the data at 3Hz
@@ -64,13 +64,13 @@ Alternatively, you may want to only record a subset of the data. Here is how to 
 	drone.quit()
 
 
-Logging :class:`~tello_control.tello_control` messages in background
+Logging :class:`~tello_ctrl.tello_ctrl` messages in background
 **********************************************************************
 
 Levels
 ~~~~~~
 
-For debugging purpose, you may want to log the internal messages send by the :class:`~tello_control.tello_control` object.
+For debugging purpose, you may want to log the internal messages send by the :class:`~tello_ctrl.tello_ctrl` object.
 There are four main levels of messages :
 
    * "ERROR" : messages indicating that something went bad
@@ -83,28 +83,28 @@ There are four main levels of messages :
 Console logger
 ~~~~~~~~~~~~~~
 
-When creating a :class:`~tello_control.tello_control` object, a console logger is automatically created to log the error. 
+When creating a :class:`~tello_ctrl.tello_ctrl` object, a console logger is automatically created to log the error. 
 You do not have to create it yourself. You may then change its level using the following code:
 
 .. code-block:: python
 
 	drone.set_log_level("console","INFO")
 
-If you want you can remove the console logger with the :meth:`~tello_control.tello_control.remove_console_logger` method.
-You can then later add a new console logger with :meth:`~tello_control.tello_control.add_console_logger`.
+If you want you can remove the console logger with the :meth:`~tello_ctrl.tello_ctrl.remove_console_logger` method.
+You can then later add a new console logger with :meth:`~tello_ctrl.tello_ctrl.add_console_logger`.
 Note that you can only have a single console logger, but it can work concurently with a file logger.
 
 File logger
 ~~~~~~~~~~~
 
 The file logger works similarly to the console logger, execept that the messages are logged into the specified file.
-You can add a file logger using the :meth:`~tello_control.tello_control.add_file_logger` method. 
+You can add a file logger using the :meth:`~tello_ctrl.tello_ctrl.add_file_logger` method. 
 It expect the file name as a mandatory parameter.
 It has optional parameters : `level` and `mode`. When using `mode="w"`, if the file exists, it is overwritten, when using `mode="a"`, data are appended 
 to the file (if it already exist).
 
 You can change the file logger level with   `drone.set_log_level("file", level)`.
-You can remove the file logger with the :meth:`~tello_control.tello_control.remove_file_logger` method. 
+You can remove the file logger with the :meth:`~tello_ctrl.tello_ctrl.remove_file_logger` method. 
 You are not obliged to remove the logger at the end of the program.
 Note that you can only have a single file logger, but it can work concurently with a console logger.
 
@@ -113,10 +113,10 @@ The following code demonstrate how to use the file logger.
 
 .. code-block:: python
 
-	from tello_control import *
+	from tello_ctrl import *
 	import time
 	
-	drone = tello_control()
+	drone = tello_ctrl()
 	
 	# Add a file logger
 	drone.add_file_logger('logfile.txt',mode='w',level="DEBUG")

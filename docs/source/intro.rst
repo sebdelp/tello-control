@@ -1,6 +1,6 @@
 Introduction
 ============
-:mod:`~tello_control.tello_control` is a package that allows controlling a Tello drone from Python. It provides access to many of the drone 
+:mod:`~tello_ctrl.tello_ctrl` is a package that allows controlling a Tello drone from Python. It provides access to many of the drone 
 senors and estimations (position, velocity, acceleration, angle, battery percentage, etc) and access to the video.
 
 As soon as the drone is connected, this library allows to automatically log the measurement and control to a csv file and record the video.
@@ -19,4 +19,4 @@ As a result, the connection to the video stream sent by the drone takes some tim
 
 
 Video processing is CPU intensive. Parallelism helps, but recoring the video to a file may lead to high CPU load depending on your computer configuration.
-In case of any CPU issue, it is suggested to use the ``downsample_factor`` of :meth:`~tello_control.tello_control.start_receiving_video` to reduce the CPU load.
+In case of any CPU issue, it is suggested to use the ``downsample_factor`` of :meth:`~tello_ctrl.tello_ctrl.start_receiving_video` to reduce the CPU load.

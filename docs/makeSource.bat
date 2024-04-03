@@ -1,1 +1,1 @@
-sphinx-apidoc -o ./source ../../tello_control
+sphinx-apidoc -o ./source ../tello_ctrl

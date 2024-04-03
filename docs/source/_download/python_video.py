@@ -1,9 +1,9 @@
-from tello_control import *
+from tello_ctrl import *
 import time
 import cv2
 
-# create a tello_control object
-drone = tello_control()
+# create a tello_ctrl object
+drone = tello_ctrl()
 
 # Connect to the drone (assuming the base station is connected to the drone's WIFI)
 drone.connect()

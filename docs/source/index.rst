@@ -1,9 +1,9 @@
-.. tello_control documentation master file, created by
+.. tello_ctrl documentation master file, created by
    sphinx-quickstart on Sat Mar 23 15:09:15 2024.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to tello_control's documentation!
+Welcome to tello_ctrl's documentation!
 ==========================================
 
 .. toctree::
@@ -16,7 +16,7 @@ Welcome to tello_control's documentation!
    logging
    sensors
    matlab
-   tello_control
+   tello_ctrl
 
 Indices and tables
 ==================

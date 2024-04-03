@@ -8,13 +8,13 @@ Using the toolbox
    * setupDroneEnv
    
 In order to use the toolbox, you must first instal it. Then every program must call `setupDroneEnv`.
-This script will connect Matlab to the Python virtual environement required by the :mod:`~tello_control.tello_control` module.
+This script will connect Matlab to the Python virtual environement required by the :mod:`~tello_ctrl.tello_ctrl` module.
 As this virtual environement has to be created, note that the first execution requires an internet access and may take some times .
 
 
    * getTelloDrone
 
-In order to use the drone, you must use a :class:`~tello_control.tello_control` object. 
+In order to use the drone, you must use a :class:`~tello_ctrl.tello_ctrl` object. 
 There is an heler function to retrive the drone object : `getTelloDrone`
    
    
@@ -32,7 +32,7 @@ So your programs should all start like this:
 Using python code with Matlab
 *****************************
 
-The :class:`~tello_control.tello_control` object can be interfaced with Matlab. However, there are a few important points to be noticed 
+The :class:`~tello_ctrl.tello_ctrl` object can be interfaced with Matlab. However, there are a few important points to be noticed 
 when exchanging data between Python and Matlab.
 
 Python string list
@@ -55,9 +55,9 @@ Retriving data from the drone
 Matlab can retrieve automatically variables with a few data type such as `float`, `logical`/`bool`.
 All the other needs to be explicitely cased to a valid Matlab type.
 
-   * Retrieving an image with :meth:`~tello_control.tello_control.get_frame`
+   * Retrieving an image with :meth:`~tello_ctrl.tello_ctrl.get_frame`
    
-An image obtained with :meth:`~tello_control.tello_control.get_frame` is actualy a numpy array. It has to be cased as `uint8`.
+An image obtained with :meth:`~tello_ctrl.tello_ctrl.get_frame` is actualy a numpy array. It has to be cased as `uint8`.
 You may use this code.
  
 	 .. code-block:: matlab
@@ -65,9 +65,9 @@ You may use this code.
 			img=uint8(drone.get_frame());
 
 
-   * Retriving the control values with :meth:`~tello_control.tello_control.get_control`
+   * Retriving the control values with :meth:`~tello_ctrl.tello_ctrl.get_control`
 
-:meth:`~tello_control.tello_control.get_control` provides the control values in a list that contains the 5 control values
+:meth:`~tello_ctrl.tello_ctrl.get_control` provides the control values in a list that contains the 5 control values
 (`left_right`,`forward_backward`, `up_down`, `yaw` and the `fast_mode` state).
 
 	 .. code-block:: matlab
@@ -113,7 +113,7 @@ We can now read the battery state of charge for instance.
 			batt=uint8(drone.get_battery());
 			fprintf('Battery : %i\n',batt)
 
-Finally, we can takeoff and land the done with the :meth:`~tello_control.tello_control.takeoff` and :meth:`~tello_control.tello_control.land` methods.
+Finally, we can takeoff and land the done with the :meth:`~tello_ctrl.tello_ctrl.takeoff` and :meth:`~tello_ctrl.tello_ctrl.land` methods.
 We also use the `bip` function to get a sound feedback.
 
 	 .. code-block:: matlab
@@ -328,10 +328,10 @@ exeDemo3_get_sensor_data.m
 The following example demonstrate how to get the drone data.
 We assume that a drone object has been created, the the drone is connected and that the drone is flying.
 
-We can get drone data using the :class:`~tello_control.tello_control`'s methods that start with `get`:
-:meth:`~tello_control.tello_control.get_position`, :meth:`~tello_control.tello_control.get_gyros`,
-:meth:`~tello_control.tello_control.get_accelerometer`, :meth:`~tello_control.tello_control.get_drone_velocity`,
-:meth:`~tello_control.tello_control.get_battery`, :meth:`~tello_control.tello_control.get_euler_angle`.
+We can get drone data using the :class:`~tello_ctrl.tello_ctrl`'s methods that start with `get`:
+:meth:`~tello_ctrl.tello_ctrl.get_position`, :meth:`~tello_ctrl.tello_ctrl.get_gyros`,
+:meth:`~tello_ctrl.tello_ctrl.get_accelerometer`, :meth:`~tello_ctrl.tello_ctrl.get_drone_velocity`,
+:meth:`~tello_ctrl.tello_ctrl.get_battery`, :meth:`~tello_ctrl.tello_ctrl.get_euler_angle`.
 
 .. code-block:: matlab
 
@@ -343,8 +343,8 @@ We can get drone data using the :class:`~tello_control.tello_control`'s methods 
 	data6=double(drone.get_euler_angle());
 
 
-You can also retrieve the list of all the data available using :meth:`~tello_control.tello_control.get_sensor_list` methods.
-We can also get all the corresponding values using the `~tello_control.tello_control.get_sensor_values_by_name` method without any arguments.
+You can also retrieve the list of all the data available using :meth:`~tello_ctrl.tello_ctrl.get_sensor_list` methods.
+We can also get all the corresponding values using the `~tello_ctrl.tello_ctrl.get_sensor_values_by_name` method without any arguments.
 
 .. code-block:: matlab
 
@@ -356,7 +356,7 @@ We can also get all the corresponding values using the `~tello_control.tello_con
 	
 
 Most of the time, only a subset of the data is needed. So you can simply specify the list of data of interest as a cell array. 
-Be carefull, the sensor name must mach the name provided by :meth:`~tello_control.tello_control.get_sensor_list`.
+Be carefull, the sensor name must mach the name provided by :meth:`~tello_ctrl.tello_ctrl.get_sensor_list`.
 
 .. code-block:: matlab
 
@@ -428,7 +428,7 @@ We assume that a drone object has been created, the the drone is connected and t
 First, we need to preallocate memory. This is a mandatory steps, as increasing an array size within a loop is time consumming
 and a very bad programming habbit.
 
-The following code allows getting the number of sensors by counting the number of elements provided by the :meth:`~tello_control.tello_control.get_sensor_list` method.
+The following code allows getting the number of sensors by counting the number of elements provided by the :meth:`~tello_ctrl.tello_ctrl.get_sensor_list` method.
 Knowing the sampling period `Ts` and the requested duration, we compute the number of sample `n`. 
 Finally, we  preallocatea matrix of NaN with the proper size
 
@@ -467,7 +467,7 @@ Then we store the sensors values in the preallocated matrix.
 	
 
 In order to use the recorded data, we need to guess which data is stored in which position.
-This is achieved using the :meth:`~tello_control.tello_control.get_sensors_idx` methods that provides the index given the sensor name.
+This is achieved using the :meth:`~tello_ctrl.tello_ctrl.get_sensors_idx` methods that provides the index given the sensor name.
 
 .. code-block:: matlab
 
@@ -562,10 +562,10 @@ exeDemo5_image_video.m
 We assume that a drone object has been created and that the the drone is connected.
 
 In order to be able to get camera image or record videos, we first need to ask the drone to send the video stream.
-This is achieved by the :meth:`~tello_control.tello_control.start_receiving_video`. 
+This is achieved by the :meth:`~tello_ctrl.tello_ctrl.start_receiving_video`. 
 Note that this function may take some time to execute (~10 seconds) as we need to wait for a valid frame sent by the drone.
 
-Then we can get a frame using the :meth:`~tello_control.tello_control.get_frame` method. The frame is a HxWx3 RGB image. Each pixel is a `uint8` value.
+Then we can get a frame using the :meth:`~tello_ctrl.tello_ctrl.get_frame` method. The frame is a HxWx3 RGB image. Each pixel is a `uint8` value.
 
 .. code-block:: matlab
 
@@ -582,11 +582,11 @@ Then we can get a frame using the :meth:`~tello_control.tello_control.get_frame`
 	figure;imshow(imtile({img1,img2}));
 
 
-We can also record MKV video files in background using the :meth:`~tello_control.tello_control.start_recording_video_to_file` method. 
+We can also record MKV video files in background using the :meth:`~tello_ctrl.tello_ctrl.start_recording_video_to_file` method. 
 It has an optional `frame_skip`. One frame is recorded and then the specified number of frames are skipped. If we skip 2 frames, then the resulting fps is 
 :math:`\frac{30}{1+2}=10 fps`.
 
-Once the recording can be terminated by calling the :meth:`~tello_control.tello_control.stop_recording_video_to_file`.
+Once the recording can be terminated by calling the :meth:`~tello_ctrl.tello_ctrl.stop_recording_video_to_file`.
 
 .. code-block:: matlab
 
@@ -599,7 +599,7 @@ Once the recording can be terminated by calling the :meth:`~tello_control.tello_
 	drone.stop_recording_video_to_file();
 	
 
-Finally, we can stop the video reception using :meth:`~tello_control.tello_control.stop_receiving_video`.
+Finally, we can stop the video reception using :meth:`~tello_ctrl.tello_ctrl.stop_receiving_video`.
 
 
 .. code-block:: matlab

@@ -5,12 +5,12 @@
 
 import os
 import sys
-#sys.path.insert(0, os.path.abspath('../../tello_control/'))
+#sys.path.insert(0, os.path.abspath('../../tello_ctrl/'))
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'tello_control'
+project = 'tello_ctrl'
 copyright = '2024, S. Delprat'
 author = 'S. Delprat'
 
@@ -20,7 +20,7 @@ author = 'S. Delprat'
 extensions = ['sphinx.ext.autodoc','sphinx.ext.viewcode']
 
 templates_path = ['_templates']
-exclude_patterns = []
+exclude_patterns = ['common']
 
 
 
