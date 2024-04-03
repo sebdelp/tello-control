@@ -3,8 +3,9 @@
 This is a package to control your Tello Drone. A significant part of the code is from the TelloPy package 
 from Hanyazou and the original GOBOT project (https://gobot.io/blog/2018/04/20/hello-tello-hacking-drones-with-go)
 
-<img src="/images/telloDrone.jpg" width="48">
-
+<p align="center">
+<img src="/images/telloDrone.jpg" width="25%">
+</p>
 Compared with the existing package, tello-ctrl:
 + has a nice documentation
 + allows logging data in background
