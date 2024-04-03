@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tello-control"
+version = "1.0.5"
+keywords = ["tello", "drone","Control","low level protocol","dji"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+	'Intended Audience :: Developers',
+	'Operating System :: Microsoft :: Windows',
+	'Development Status :: 3 - Alpha',
+	'License :: OSI Approved :: Apache Software License',
+]
+dependencies = [
+    "av",
+    "pillow",
+	"opencv-python"
+]
+
+[tool.setuptools.packages.find]
+where = ["tello_control"]
+namespaces = false
+exclude = ['_pycache_']

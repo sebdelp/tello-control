@@ -1,0 +1,22 @@
+# file to be excluded from git
+*.asv
+*.slxc
+*slprj*
+*.mkv
+*.mat
+*.zip
+
+# Python generated files
+*.pyc
+__pycache__/
+
+# Setuptools
+*.egg-info/
+
+# Build files
+build/
+dist/
+
+# folders to be excluded
+.venv/
+
