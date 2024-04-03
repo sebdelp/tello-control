@@ -8,7 +8,16 @@ As soon as the drone is connected, this library allows to automatically log the 
 Acknowlegement
 **************
 
-Most of the low level communication code is copied from the ``TelloPy`` library. All the credits goes to its auteur Hanyazou.
+Most of the low level communication code is copied from the ``TelloPy`` library. All the credits goes to its author Hanyazou.
+
+Installation
+************
+
+You can install the ``tello-ctrl`` package using pip:
+
+.. code-block:: 
+
+	$ pip install tello-drone
 
 Limitations
 ***********
