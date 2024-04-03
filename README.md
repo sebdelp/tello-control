@@ -6,7 +6,9 @@ from Hanyazou and the original GOBOT project (https://gobot.io/blog/2018/04/20/h
 <p align="center">
 <img src="/images/telloDrone.jpg" width="25%">
 </p>
+
 Compared with the existing package, tello-ctrl:
+
 + has a nice documentation
 + allows logging data in background
 + allows recording video files (mkv) in background
