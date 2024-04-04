@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tello-ctrl"
-version = "1.0.6"
+version = "1.0.7"
 readme = "README.md"
 
 keywords = ["tello", "drone","Control","low level protocol","dji"]
@@ -17,14 +17,12 @@ classifiers = [
 ]
 dependencies = [
     "av",
-    "pillow",
-	"opencv-python"
+    "opencv-python"
 ]
 
-[tool.setuptools.packages.find]
-where = ["tello_ctrl"]
-namespaces = false
-exclude = ['_pycache_']
+[tool.setuptools]
+package-dir = {""="tello_ctrl"}
+
 
 [project.urls]
 Issues = "https://github.com/sebdelp/tello-control/issues"
